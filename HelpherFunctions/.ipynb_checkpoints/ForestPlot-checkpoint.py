@@ -1,10 +1,7 @@
+# -*- coding: utf-8 -*-
 import numpy as np
 import pandas as pd
 from scipy.stats import norm
-#import statsmodels.api as sm
-#import statsmodels.formula.api as smf
-#from statsmodels.genmod.families import links
-#from statsmodels.nonparametric.smoothers_lowess import lowess
 import matplotlib
 import matplotlib.pyplot as plt
 import matplotlib.gridspec as gridspec
@@ -16,27 +13,8 @@ import arviz as az
 #        (https://github.com/pzivich)
 #       adapted for the use in this analysis
 ######
-def multimode(x, n, hdi_prob):
-    """ Finds all the modes in the distribution
-        arguments:
-            x: the array for the distribution
-            n: the identifier for the variable
-    """
-    md = az.hdi(x, hdi_prob=hdi_prob, multimodal=False)
-    if len(md) < 2 and n > 1:
-        return np.NaN
-    else:
-        return md[n%2]    
-######
-stats_func_1 = {
-    'b0': lambda x: multimode(x, 0, 0.6827),
-    'b1': lambda x: multimode(x, 1, 0.6827),
-        }
-    
-stats_func_2 = {
-    'b0': lambda x: multimode(x, 0, 0.9545),
-    'b1': lambda x: multimode(x, 1, 0.9545),
-        }
+
+
 
 
 
@@ -92,7 +70,7 @@ class ForestPlot:
     >>>x.plot(t_adjuster=0.13) #generating the effect measure plot
     """
 
-    def __init__(self, label, effect_measure, lcl, ucl):
+    def __init__(self, label, effect_measure,lcl,ucl):
         """Initializes effectmeasure_plot with desired data to plot. All lists should be the same
         length. If a blank space is desired in the plot, add an empty character object (' ') to
         each list at the desired point.
@@ -231,6 +209,11 @@ class ForestPlot:
         plot = plt.subplot(gspec[0, 0:4])  # plot of data
         tabl = plt.subplot(gspec[0, 4:])  # table of OR & CI
         plot.set_ylim(-1, (len(self.df)))  # spacing out y-axis properly
+        ###### some effects #####
+        n_lines = 10
+        diff_linewidth = 1.05
+        alpha_value = 0.03
+       # plot.set_facecolor('#EFEFF1')
         if self.scale == 'log':
             try:
                 plot.set_xscale('log')
@@ -239,9 +222,16 @@ class ForestPlot:
         plot.axvline(self.center, color=self.linec, zorder=1)
         for pos, y, err1,err2, color in zip(self.df.OR2, self.df.index, self.df.LCL_dif, self.df.UCL_dif, self.errc):
             plot.errorbar(pos , y, xerr=[[err1], [err2]], lw=0, capsize=5, capthick=2, 
-                          ecolor=color,elinewidth=1.5*(size / size),marker='None', zorder=2)
+                          ecolor=color,elinewidth=2.*(size / size),marker='None', zorder=2)
+            #### add glow
+          #  for n in range(1, n_lines+1):
+           #     plot.errorbar(pos , y, xerr=[[err1], [err2]], lw=0, capsize=0, capthick=0, 
+            #              ecolor=color,elinewidth=1+(diff_linewidth*n),marker='None', zorder=1,alpha=alpha_value)
+                
 
-        scatter = plot.scatter(self.df.OR2, self.df.index, c=self.pc, s=(size * 20), marker=self.shape, zorder=3,
+
+          
+        scatter = plot.scatter(self.df.OR2, self.df.index, c=self.pc, s=(size * 25), marker=self.shape, zorder=3,
                      edgecolors='None')
         plot.xaxis.set_ticks_position('both')
         plot.yaxis.set_ticks_position('both')
