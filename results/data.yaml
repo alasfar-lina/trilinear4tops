@@ -8,11 +8,12 @@
       ttH_delta_rge : 0.4e-3
       ttH14_rge:  -0.5e-3
       ttH14_delta_rge: 0.5e-3 
-      ggFos_rge: -0.0336088
-      ggFos_fin: 0.0421866 
-      ggFLL: -0.0313
-      gagaos_rge: 0.006428
-      gagaos_fin: -0.00807018
+      ggFos_rge: -0.0219384
+      ggFos_fin: 0.027481
+      htogg_rge: -0.0215049 
+      htogg_fin: 0.014828
+      gagaos_rge: 0.00166189
+      gagaos_fin: -0.00114457
       Hbb_rge:  -0.313405
       Hbb_fin: -0.75805
       ttxbbxl4: 0.0420
@@ -28,13 +29,14 @@
       ttH_delta_rge :  0.20e-3
       ttH14_rge:  -0.91e-3
       ttH14_delta_rge : 0.31e-3 
-      ggFos_rge: -0.00640167
-      ggFos_fin: 0.00803554
-      ggFLL: -0.0059
-      gagaos_rge: 0.00122438
-      gagaos_fin: -0.00153718
-      Hbb_rge: -0.0620143
-      Hbb_fin: -0.149997
+      ggFos_rge: -0.00417874
+      ggFos_fin: 0.00523448
+      htogg_rge: -0.00409617 
+      htogg_fin: 0.00282439
+      gagaos_rge: 0.000316551
+      gagaos_fin: -0.000218014
+      Hbb_rge: -0.0114152
+      Hbb_fin: -0.132281 
       ttxbbxl4: 0.00639
       ttxbbxl2: 0.008270
       ttxbbx_delta: 0.0008
@@ -48,11 +50,12 @@
       ttH14_rge: -423.2e-3
       ttH_delta_rge : 0.5e-3
       ttH14_delta_rge : 0.7e-3
-      ggFos_rge: -0.00540223
-      ggFos_fin: 0.950049e-2
-      ggFLL: .0179
-      gagaos_rge: 0.00117462 
-      gagaos_fin:   -0.00215446
+      ggFos_rge: -0.00539829 
+      ggFos_fin: 0.00964199
+      htogg_rge: -0.00537215 
+      htogg_fin: 0.00587209
+      gagaos_rge: 0.0015725
+      gagaos_fin: -0.00176541
       Hbb_rge: 0.
       Hbb_fin: 0.
       ttxbbxl4: 0.023
@@ -69,10 +72,11 @@
       ttH_delta_rge : 0.5e-3 
       ttH14_delta_rge :  0.6e-3
       ggFos_rge: -0.00720297
-      ggFos_fin:  1.26673e-2
-      ggFLL: .0239
-      gagaos_rge: 0.00156616
-      gagaos_fin: -0.00287261
+      ggFos_fin:   -0.00719773 
+      htogg_rge: -0.00716287 
+      htogg_fin: 0.00782945
+      gagaos_rge: 0.00209667
+      gagaos_fin: -0.00235388
       Hbb_rge: 0.
       Hbb_fin: 0.
       ttxbbxl4: 0.00172

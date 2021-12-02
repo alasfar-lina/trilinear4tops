@@ -207,14 +207,14 @@ def mylikelihoodAV(Cqu1,Cqt8,Cqtqb1,Cqtqb8,CH,data,experiments=['ATLAS','CMS'],H
 
 ###########################################################################
      #theoretical errors
-    delta_ch_gaga =((1./(2.)**.5*(1) * C1gaga *ZH)**2)**.5
-    delta_ch_zz =((1./(2.)**.5 *(1)* C1zz *ZH)**2)**.5
-    delta_ch_ww =((1./(2.)**.5*(1) *C1ww *ZH)**2)**.5
-    delta_ch_gg =((1./(2.)**.5 *(1)* C1gg *ZH)**2)**.5
-    delta_ch_vbf =((1./(2.)**.5*(1) * C1VBF *ZH)**2)**.5
-    delta_ch_zh =((1/(2.)**.5 *(1)* C1ZH *ZH)**2)**.5
-    delta_ch_wh =((1/(2.)**.5*(1) *C1WH *ZH)**2)**.5
-    delta_ch_tth =((1/(2)**.5 *(1) * C1ttH *ZH)**2)**.5
+    delta_ch_gaga =((1./(2.)**.5*(0) * C1gaga *ZH)**2)**.5
+    delta_ch_zz =((1./(2.)**.5 *(0)* C1zz *ZH)**2)**.5
+    delta_ch_ww =((1./(2.)**.5*(0) *C1ww *ZH)**2)**.5
+    delta_ch_gg =((1./(2.)**.5 *(0)* C1gg *ZH)**2)**.5
+    delta_ch_vbf =((1./(2.)**.5*(0) * C1VBF *ZH)**2)**.5
+    delta_ch_zh =((1/(2.)**.5 *(0)* C1ZH *ZH)**2)**.5
+    delta_ch_wh =((1/(2.)**.5*(0) *C1WH *ZH)**2)**.5
+    delta_ch_tth =((1/(2)**.5 *(0) * C1ttH *ZH)**2)**.5
 
       # merge the WH and ZH channels
 
@@ -408,7 +408,7 @@ def mylikelihoodAV(Cqu1,Cqt8,Cqtqb1,Cqtqb8,CH,data,experiments=['ATLAS','CMS'],H
     
     ndf= 2.
 
-    err=(errTheo**2+errExp**2)**0.5
+    err=(errExp**2)**0.5
 
     # include correlations   
     A = tt.dmatrix('A')
