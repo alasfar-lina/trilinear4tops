@@ -6,16 +6,16 @@
       ttH14_delta_fin: 0.5e-3 
       ttH_rge: 0.49e-3
       ttH_delta_rge : 0.4e-3
-      ttH14_rge:  -0.5e-3
+      ttH14_rge:  0.00133 
       ttH14_delta_rge: 0.5e-3 
-      ggFos_rge: -0.0219384
-      ggFos_fin: 0.027481
-      htogg_rge: -0.0215049 
-      htogg_fin: 0.014828
-      gagaos_rge: 0.00166189
-      gagaos_fin: -0.00114457
-      Hbb_rge:  -0.313405
-      Hbb_fin: -0.75805
+      ggFos_rge: -0.0226564
+      ggFos_fin: 0.0284191
+      htogg_rge: -0.0225886
+      htogg_fin: 0.0156236 
+      gagaos_rge: 0.00194268
+      gagaos_fin: -0.00130025
+      Hbb_rge:  -0.606701 
+      Hbb_fin: 0.0924879
       ttxbbxl4: 0.0420
       ttxbbxl2: 0.00517
       ttxbbx_delta: 0.003
@@ -27,16 +27,16 @@
       ttH14_delta_fin : 0.40e-3
       ttH_rge:  1.42e-3
       ttH_delta_rge :  0.20e-3
-      ttH14_rge:  -0.91e-3
+      ttH14_rge:  0.00193
       ttH14_delta_rge : 0.31e-3 
-      ggFos_rge: -0.00417874
-      ggFos_fin: 0.00523448
-      htogg_rge: -0.00409617 
-      htogg_fin: 0.00282439
-      gagaos_rge: 0.000316551
-      gagaos_fin: -0.000218014
-      Hbb_rge: -0.0114152
-      Hbb_fin: -0.132281 
+      ggFos_rge:  -0.0043467
+      ggFos_fin: 0.00541315
+      htogg_rge: -0.00433682
+      htogg_fin: 0.00297592 
+      gagaos_rge: 0.000373593 
+      gagaos_fin: -0.000247666
+      Hbb_rge: -0.115562
+      Hbb_fin: 0.0176168
       ttxbbxl4: 0.00639
       ttxbbxl2: 0.008270
       ttxbbx_delta: 0.0008
@@ -47,15 +47,15 @@
       ttH_delta_fin : 0.5e-3
       ttH14_delta_fin : 0.7e-3
       ttH_rge: -414.2e-3
-      ttH14_rge: -423.2e-3
+      ttH14_rge: -423.1e-3
       ttH_delta_rge : 0.5e-3
       ttH14_delta_rge : 0.7e-3
-      ggFos_rge: -0.00539829 
-      ggFos_fin: 0.00964199
-      htogg_rge: -0.00537215 
-      htogg_fin: 0.00587209
-      gagaos_rge: 0.0015725
-      gagaos_fin: -0.00176541
+      ggFos_rge: -0.00539028
+      ggFos_fin: 0.00990866 
+      htogg_rge: -0.0053941
+      htogg_fin: 0.00607984
+      gagaos_rge: 0.00156583
+      gagaos_fin: -0.0017626
       Hbb_rge: 0.
       Hbb_fin: 0.
       ttxbbxl4: 0.023
@@ -71,12 +71,12 @@
       ttH14_rge: 85.7e-3
       ttH_delta_rge : 0.5e-3 
       ttH14_delta_rge :  0.6e-3
-      ggFos_rge: -0.00720297
-      ggFos_fin:  -0.00719773 
-      htogg_rge: -0.00716287 
-      htogg_fin: 0.00782945
-      gagaos_rge: 0.00209667
-      gagaos_fin: -0.00235388
+      ggFos_rge: -0.00720037
+      ggFos_fin: 0.0284191
+      htogg_rge: -0.0071888
+      htogg_fin: 0.00810645
+      gagaos_rge: 0.00235829
+      gagaos_fin: -0.00235013
       Hbb_rge: 0.
       Hbb_fin: 0.
       ttxbbxl4: 0.00172
@@ -196,16 +196,16 @@
                 err_gaga: 0.11
                 mu_zz: 0.9375
                 err_zz: 0.105
-                mu_ww: 1.080
+                mu_ww: 1.085
                 err_ww: 0.185
-                mu_tata: .995
+                mu_tata: 1.045
                 err_tata: 0.575
                 mu_bb: 0.
                 err_bb: 0.
                 mu_mm: 0.
                 err_mm: 0.
             vbf:
-                mu_gaga:  1.295
+                mu_gaga:  1.33
                 err_gaga: 0.245
                 mu_zz: 1.295
                 err_zz: 0.455
@@ -213,12 +213,12 @@
                 err_ww: 0.35
                 mu_tata:  1.13
                 err_tata: 0.55
-                mu_bb: 3.005
+                mu_bb: 3.055
                 err_bb:  1.645
-                mu_mm: 3.005
-                err_mm:  1.645
+                mu_mm: 0.0
+                err_mm:  0.0
             ttxh:
-                mu_gaga: 0.885
+                mu_gaga: 0.91
                 err_gaga: 0.255
                 mu_vv: 1.705
                 err_vv: 0.545
@@ -229,13 +229,13 @@
             vh:
                 mu_gaga: 1.305
                 err_gaga: 0.315
-                mu_zz: 1.425
+                mu_zz: 1.635
                 err_zz: 1.025
                 mu_ww: 0.
                 err_ww: 0.
                 mu_tata:  .0
                 err_tata: .0
-                mu_bb: 1.015
+                mu_bb: 1.025
                 err_bb: 0.175
             zh:
                 mu_gaga: 0.
@@ -288,11 +288,11 @@
                 mu_mm: 0.
                 err_mm: 0.
             vbf:
-                mu_gaga:  1.04
-                err_gaga:  0.32
-                mu_zz: .57
+                mu_gaga:  1.055
+                err_gaga:  0.325
+                mu_zz: .62
                 err_zz: .41
-                mu_ww: 0.63
+                mu_ww: 0.65
                 err_ww: 0.63
                 mu_tata:  1.05
                 err_tata: 0.295
@@ -301,7 +301,7 @@
                 mu_mm: 0.
                 err_mm: 0.
             ttxh:
-                mu_gaga: 1.35
+                mu_gaga: 1.38
                 err_gaga:  0.31
                 mu_vv: .92
                 err_vv: 0.24
@@ -310,7 +310,7 @@
                 mu_bb: 0.
                 err_bb: 0.
             vh:
-                mu_gaga: 1.34
+                mu_gaga: 1.355
                 err_gaga: 0.345
                 mu_zz: 1.10
                 err_zz: 0.85
@@ -327,9 +327,9 @@
                 err_zz: 0.
                 mu_ww: 0.
                 err_ww: 0.
-                mu_tata:  1.53
+                mu_tata:  1.65
                 err_tata: 1.30
-                mu_bb: 0.93
+                mu_bb: 0.94
                 err_bb: 0.32
             wh:
                 mu_gaga: 0.
@@ -340,7 +340,7 @@
                 err_ww: 0.
                 mu_tata:  3.01
                 err_tata: 1.60
-                mu_bb: 1.27
+                mu_bb: 1.28
                 err_bb: 0.41
                 
         HL-LHC:

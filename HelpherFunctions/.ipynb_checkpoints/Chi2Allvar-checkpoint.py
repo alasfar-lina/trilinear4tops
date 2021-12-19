@@ -46,12 +46,14 @@ def mylikelihoodAV(Cqu1,Cqt8,Cqtqb1,Cqtqb8,CH,data,experiments=['ATLAS','CMS'],H
     gamma_gaga_cqu1= data['Cqt1']['gagaos_'+mode]* Cqu1+data['Cqt8']['gagaos_'+mode]* Cqt8+data['Cqtqb1']['gagaos_'+mode]* Cqtqb1+data['Cqtqb8']['gagaos_'+mode]*Cqtqb8
     #+data['Ctt1']['gagaos']*Ctt1+data['Cqq1']['gagaos']*Cqq1+data['Cqq8']['gagaos']*Cqq8
     #
-    gamma_gg_cqu1=data['Cqt1']['ggFos_'+mode]* Cqu1+data['Cqt8']['ggFos_'+mode]* Cqt8+data['Cqtqb1']['ggFos_'+mode]* Cqtqb1+data['Cqtqb8']['ggFos_'+mode]*Cqtqb8
+    gamma_gg_cqu1=data['Cqt1']['htogg_'+mode]* Cqu1+data['Cqt8']['htogg_'+mode]* Cqt8+data['Cqtqb1']['htogg_'+mode]* Cqtqb1+data['Cqtqb8']['htogg_'+mode]*Cqtqb8
     #+data['Ctt1']['ggFos']*Ctt1+data['Cqq1']['ggFos']*Cqq1+data['Cqq8']['ggFos']*Cqq8
     #
     gamma_bb_cqu1=data['Cqt1']['Hbb_'+mode]* Cqu1+data['Cqt8']['Hbb_'+mode]* Cqt8+data['Cqtqb1']['Hbb_'+mode]* Cqtqb1+data['Cqtqb8']['Hbb_'+mode]*Cqtqb8
     #+data['Ctt1']['Hbb']*Ctt1+data['Cqq1']['Hbb']*Cqq1+data['Cqq8']['Hbb']*Cqq8
-    sigma_gg_cqu1 =gamma_gg_cqu1
+    sigma_gg_cqu1 =data['Cqt1']['ggFos_'+mode]* Cqu1+data['Cqt8']['ggFos_'+mode]* Cqt8+data['Cqtqb1']['ggFos_'+mode]* Cqtqb1+data['Cqtqb8']['ggFos_'+mode]*Cqtqb8
+    #+data['Ctt1']['ggFos']*Ctt1+data['Cqq1']['ggFos']*Cqq1+data['Cqq8']['ggFos']*Cqq8
+    #
     #
     if experiments== ['HL-LHC']:
         sigma_ttH_cqu1=data['Cqt1']['ttH14_'+mode]* Cqu1+data['Cqt8']['ttH14_'+mode]* Cqt8+data['Cqtqb1']['ttH14_'+mode]* Cqtqb1+data['Cqtqb8']['ttH14_'+mode]*Cqtqb8

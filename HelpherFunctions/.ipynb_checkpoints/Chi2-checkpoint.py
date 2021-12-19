@@ -60,9 +60,9 @@ def mylikelihood(operator,Cqu1,CH,data,experiments=['ATLAS'],HiggsChannels=['ggf
     d_gamma_tot_ch = data['kl']['tot_gamma']
     #difference in cross sections from 4 fermion operators
     gamma_gaga_cqu1= data[operator]['gagaos_'+mode]* Cqu1
-    gamma_gg_cqu1=data[operator]['ggFos_'+mode]* Cqu1
+    gamma_gg_cqu1=data[operator]['htogg_'+mode]* Cqu1
     gamma_bb_cqu1=data[operator]['Hbb_'+mode]* Cqu1
-    sigma_gg_cqu1 =gamma_gg_cqu1
+    sigma_gg_cqu1 =data[operator]['ggFos_'+mode]* Cqu1
     sigma_ttH_cqu1= data[operator]['ttH14_'+mode]* Cqu1 if experiments== ['HL-LHC'] else data[operator]['ttH_'+mode]* Cqu1
     ttH_err = data[operator]['ttH14_delta_'+mode] if experiments== ['HL-LHC'] else data[operator]['ttH_delta_'+mode]
     cH=CH
