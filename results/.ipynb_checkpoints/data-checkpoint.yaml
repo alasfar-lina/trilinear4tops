@@ -67,8 +67,8 @@
       ttH14_fin: 73.0e-3 
       ttH_delta_fin : 0.13e-3
       ttH14_delta_fin : 0.6e-3
-      ttH_rge: 77.2e-3
-      ttH14_rge: 85.7e-3
+      ttH_rge:  0.0772022
+      ttH14_rge: .0857131
       ttH_delta_rge : 0.5e-3 
       ttH14_delta_rge :  0.6e-3
       ggFos_rge: -0.00720037
@@ -172,6 +172,10 @@
       Lambda: 1.0e3
       mb_at_mh: 2.66
       mb_pole: 4.7
+      xs_zh_13: 0.880 
+      xs_zh_14: 0.981
+      xs_wh_13: 1.358
+      xs_wh_14: 1.498
 ##################
     Higgs:
       mass: 125.1
@@ -193,76 +197,60 @@
             Ref: 'ATLAS-CONF-2020-027'
             ggf:
                 mu_gaga: 1.03
-                err_gaga: 0.11
-                mu_zz: 0.9375
-                err_zz: 0.105
-                mu_ww: 1.085
-                err_ww: 0.185
-                mu_tata: 1.045
-                err_tata: 0.575
-                mu_bb: 0.
-                err_bb: 0.
-                mu_mm: 0.
-                err_mm: 0.
+                up_err_gaga: 0.11
+                low_err_gaga: 0.11
+                mu_zz: 0.94
+                up_err_zz: 0.11
+                low_err_zz: 0.10
+                mu_ww: 1.08
+                up_err_ww: 0.19
+                low_err_ww: 0.18
+                mu_tata: 1.02
+                up_err_tata: 0.60
+                low_err_tata: 0.55
             vbf:
-                mu_gaga:  1.33
-                err_gaga: 0.245
-                mu_zz: 1.295
-                err_zz: 0.455
-                mu_ww: 0.61
-                err_ww: 0.35
-                mu_tata:  1.13
-                err_tata: 0.55
-                mu_bb: 3.055
-                err_bb:  1.645
-                mu_mm: 0.0
-                err_mm:  0.0
+                mu_gaga:  1.31
+                up_err_gaga: 0.26
+                low_err_gaga: 0.23
+                mu_zz: 1.25
+                up_err_zz: 0.50
+                low_err_zz: 0.41
+                mu_ww: 0.60
+                up_err_ww: 0.36
+                low_err_ww: 0.34
+                mu_tata:  1.15
+                up_err_tata: 0.57
+                low_err_tata: 0.53
+                mu_bb: 3.03
+                up_err_bb:  1.67
+                low_err_bb:  1.62
             ttxh:
-                mu_gaga: 0.91
-                err_gaga: 0.255
-                mu_vv: 1.705
-                err_vv: 0.545
-                mu_tata:  1.13
-                err_tata: 1.0
-                mu_bb: 0.78
-                err_bb:  0.595
+                mu_gaga: 0.90
+                up_err_gaga: 0.27
+                low_err_gaga: 0.24
+                mu_vv: 1.72
+                up_err_vv: 0.56
+                low_err_vv: 0.53
+                mu_tata:  1.20
+                up_err_tata: 1.07
+                low_err_tata: 0.93
+                mu_bb: 0.79
+                up_err_bb:  0.60
+                low_err_bb:  0.59
             vh:
-                mu_gaga: 1.305
-                err_gaga: 0.315
-                mu_zz: 1.635
-                err_zz: 1.025
-                mu_ww: 0.
-                err_ww: 0.
-                mu_tata:  .0
-                err_tata: .0
-                mu_bb: 1.025
-                err_bb: 0.175
-            zh:
-                mu_gaga: 0.
-                err_gaga: 0.
-                mu_zz: 0.
-                err_zz: 0.
-                mu_ww: 0.
-                err_ww: 0.
-                mu_tata:  .0
-                err_tata: .0
-                mu_bb: 0.
-                err_bb: 0.
-            wh:
-                mu_gaga: 0.
-                err_gaga: 0.
-                mu_zz: 0.
-                err_zz: 0.
-                mu_ww: 0.
-                err_ww: 0.
-                mu_tata:  .0
-                err_tata: .0
-                mu_bb: 0.
-                err_bb: 0.
+                mu_gaga: 1.32
+                up_err_gaga: 0.33
+                low_err_gaga: 0.30
+                mu_zz: 1.53
+                up_err_zz: 1.13
+                low_err_zz: .92
+                mu_bb: 1.02
+                up_err_bb: 0.18
+                low_err_bb: 0.17
+
             
             corr_ggfvbf_gaga: -0.11
             corr_ggfvbf_zz: -0.21
-            corr_ggfvbf_ww: -0.08
             corr_ggfvbf_tata: -0.45
             corr_ggf_vh_zz: -0.28
             corr_tth_tatazz: -0.42
@@ -272,138 +260,166 @@
             Lumi: 137
             Refgaga: 'CMS-HIG-19-015'
             Refww: 'CMS-PAS-HIG-19-017'
-            Refttxh: 'CMS-HIG-19-008'
             Refother: 'CMS PAS HIG-19-005'
             ggf:
-                mu_gaga: 1.07
-                err_gaga: 0.12
+                mu_gaga: .98
+                up_err_gaga: 0.13
+                low_err_gaga: 0.11
                 mu_zz: 0.98
-                err_zz: 0.115
+                up_err_zz: 0.12
+                low_err_zz: 0.11
                 mu_ww: 1.28
-                err_ww: 0.195
+                up_err_ww: 0.20
+                low_err_ww: 0.19
                 mu_tata: 0.39
-                err_tata: 0.385
+                up_err_tata: 0.38
+                low_err_tata: 0.39
                 mu_bb: 2.45
-                err_bb: 2.44
-                mu_mm: 0.
-                err_mm: 0.
+                up_err_bb: 2.53
+                low_err_bb: 2.35
+                mu_mm: 0.31
+                up_err_mm: 1.82
+                low_err_mm: 1.81
             vbf:
-                mu_gaga:  1.055
-                err_gaga:  0.325
-                mu_zz: .62
-                err_zz: .41
-                mu_ww: 0.65
-                err_ww: 0.63
+                mu_gaga:  1.15
+                up_err_gaga:  0.36
+                low_err_gaga:  0.31
+                mu_zz: 0.57
+                up_err_zz: 0.46
+                low_err_zz: 0.36
+                mu_ww: 0.63
+                up_err_ww: 0.65
+                low_err_ww: 0.61
                 mu_tata:  1.05
-                err_tata: 0.295
-                mu_bb: 0.
-                err_bb:  0.
-                mu_mm: 0.
-                err_mm: 0.
+                up_err_tata: 0.30
+                low_err_tata: 0.29
+                mu_mm: 3.18
+                up_err_mm: 8.22
+                low_err_mm: 7.93
+
             ttxh:
-                mu_gaga: 1.38
-                err_gaga:  0.31
-                mu_vv: .92
-                err_vv: 0.24
-                mu_tata:  0.
-                err_tata: 0.
-                mu_bb: 0.
-                err_bb: 0.
+                mu_gaga: 1.40
+                up_err_gaga:  0.33
+                low_err_gaga:  0.27
+                mu_bb: 1.13
+                up_err_bb: 0.33
+                low_err_bb: 0.30
+                mu_tata: 0.81
+                up_err_tata: 0.74
+                low_err_tata: 0.67
+                mu_ww: 0.93
+                up_err_ww: 0.48
+                low_err_ww: 0.45
+                mu_zz: 0.25
+                up_err_zz: 1.03
+                low_err_zz: 0.25
+
             vh:
-                mu_gaga: 1.355
-                err_gaga: 0.345
+                mu_gaga: .71
+                up_err_gaga: 0.31
+                low_err_gaga: 0.28
                 mu_zz: 1.10
-                err_zz: 0.85
+                up_err_zz: 0.96
+                low_err_zz: 0.74
                 mu_ww: 1.85
-                err_ww:  0.4379
-                mu_tata:  0.
-                err_tata: 0
-                mu_bb: .0
-                err_bb: 0. 
+                up_err_ww:  0.47
+                low_err_ww:  0.44
+ 
             zh:
-                mu_gaga: 0.
-                err_gaga: 0.
-                mu_zz: 0.
-                err_zz: 0.
-                mu_ww: 0.
-                err_ww: 0.
-                mu_tata:  1.65
-                err_tata: 1.30
-                mu_bb: 0.94
-                err_bb: 0.32
-            wh:
-                mu_gaga: 0.
-                err_gaga: 0.
-                mu_zz: 0.
-                err_zz: 0.
-                mu_ww: 0.
-                err_ww: 0.
+                mu_tata:  1.53
+                up_err_tata: 1.60
+                low_err_tata: 1.37
+                mu_bb: 0.93
+                up_err_bb: 0.33
+                low_err_bb: 0.31
+            wh:               
                 mu_tata:  3.01
-                err_tata: 1.60
-                mu_bb: 1.28
-                err_bb: 0.41
+                up_err_tata: 1.65
+                low_err_tata: 1.51
+                mu_bb: 1.27
+                up_err_bb: 0.42
+                low_err_bb: 0.40
+
                 
         HL-LHC:
             Lumi: 3000
             ggf:
                 mu_gaga: 1.0
-                err_gaga: 4.2e-2
+                up_err_gaga: 4.2e-2
+                low_err_gaga: 4.2e-2
                 mu_zz: 1.0
-                err_zz: 4.0e-2
+                up_err_zz: 4.0e-2
+                low_err_zz: 4.0e-2
                 mu_ww: 1.0
-                err_ww: 3.7e-2
+                up_err_ww: 3.7e-2
+                low_err_ww: 3.7e-2
                 mu_tata: 1.0
-                err_tata: 5.5e-2
+                up_err_tata: 5.5e-2
+                low_err_tata: 5.5e-2
                 mu_bb: 1.
-                err_bb: 24.7e-2
+                up_err_bb: 24.7e-2
+                low_err_bb: 24.7e-2
                 mu_mm: 1.
-                err_mm: 13.8e-2
+                up_err_mm: 13.8e-2
+                low_err_mm: 13.8e-2
             vbf:
                 mu_gaga:  1.0
-                err_gaga: 12.8e-2
+                up_err_gaga: 12.8e-2
+                low_err_gaga: 12.8e-2
                 mu_zz: 1.0
-                err_zz: 13.4e-2
+                up_err_zz: 13.4e-2
+                low_err_zz: 13.4e-2
                 mu_ww: 1.0
-                err_ww: 7.3e-2
+                up_err_ww: 7.3e-2
+                low_err_ww: 7.3e-2
                 mu_tata:  1.0
-                err_tata: 4.4e-2
-                mu_bb: .0
-                err_bb:  .0
+                up_err_tata: 4.4e-2
+                low_err_tata: 4.4e-2
                 mu_mm: 1.
-                err_mm: 54.0e-2
+                up_err_mm: 54.0e-2
+                low_err_mm: 54.0e-2
             wh:
                 mu_gaga: 1.
-                err_gaga: 13.9e-2
+                up_err_gaga: 13.9e-2
+                low_err_gaga: 13.9e-2
                 mu_zz: 1.
-                err_zz: 47.8e-2
+                up_err_zz: 47.8e-2
+                low_err_zz: 47.8e-2
                 mu_ww: 1.
-                err_ww: 13.8e-2
-                mu_tata:  .0
-                err_tata: .0
+                up_err_ww: 13.8e-2
+                low_err_ww: 13.8e-2
                 mu_bb: 1.
-                err_bb: 9.4e-2
+                up_err_bb: 9.4e-2
+                low_err_bb: 9.4e-2
             zh:
                 mu_gaga: 1.
-                err_gaga: 23.3e-2
+                up_err_gaga: 23.3e-2
+                low_err_gaga: 23.3e-2
                 mu_zz: 1.
-                err_zz: 78.6e-2
+                up_err_zz: 78.6e-2
+                low_err_zz: 78.6e-2
                 mu_ww: 1.
-                err_ww: 18.4e-2
-                mu_tata:  .0
-                err_tata: .0
+                up_err_ww: 18.4e-2
+                low_err_ww: 18.4e-2
                 mu_bb: 1.
-                err_bb: 6.5e-2
-            ttxhhllhc:
+                up_err_bb: 6.5e-2
+                low_err_bb: 6.5e-2
+            ttxh:
                 mu_gaga: 1.0
-                err_gaga: 9.4e-2
+                up_err_gaga: 9.4e-2
+                low_err_gaga: 9.4e-2
                 mu_zz: 1.0
-                err_zz: 24.6e-2
+                up_err_zz: 24.6e-2
+                low_err_zz: 24.6e-2
                 mu_ww: 1.0
-                err_ww: 9.7e-2
+                up_err_ww: 9.7e-2
+                low_err_ww: 9.7e-2
                 mu_bb: 1.0
-                err_bb: 11.6e-2
+                up_err_bb: 11.6e-2
+                low_err_bb: 11.6e-2
                 mu_tata:  1.
-                err_tata: 14.9e-2              
+                up_err_tata: 14.9e-2   
+                low_err_tata: 14.9e-2   
 
         
         ttxbbx:
