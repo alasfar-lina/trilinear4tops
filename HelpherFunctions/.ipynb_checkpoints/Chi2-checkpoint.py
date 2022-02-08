@@ -25,7 +25,7 @@ def rk4(f, x0, y0, x1, n):
     return vx, vy
 
 
-def mylikelihood(operator,Cqu1,CH,data,experiments=['ATLAS'],HiggsChannels=['ggf','vbf','ttxh','vh'],TopChannels='smeft_fit_quad',mode='fin',l3mode='linear',linearmu=True):
+def mylikelihood(operator,Cqu1,CH,data,collider='Run-II',mode='fin',l3mode='linear'):
     
     """ Chi2 function in vectorissed manner
             mu0: vector of the expected poi
@@ -60,9 +60,9 @@ def mylikelihood(operator,Cqu1,CH,data,experiments=['ATLAS'],HiggsChannels=['ggf
     C1ww=data['kl']['ww']
     C1ff=data['kl']['ff']
     C1VBF=data['kl']['VBF']
-    C1ZH=data['kl']['ZH14']  if experiments== ['HL-LHC'] else data['kl']['ZH'] 
+    C1ZH=data['kl']['ZH14']  if collider== 'HL-LHC' else data['kl']['ZH'] 
     C1WH=data['kl']['WH']
-    C1ttH= data['kl']['ttH14'] if experiments== ['HL-LHC'] else data['kl']['ttH'] 
+    C1ttH= data['kl']['ttH14'] if collider== 'HL-LHC' else data['kl']['ttH'] 
     C14l=data['kl']['hto4l']
     d_gamma_tot_ch = data['kl']['tot_gamma']
     ############
@@ -101,14 +101,18 @@ def mylikelihood(operator,Cqu1,CH,data,experiments=['ATLAS'],HiggsChannels=['ggf
         RGamtata =quadfunc(C1ff)
         RGamff =quadfunc(C1ff)
         mu4leptons= quadfunc(C14l) # not used 
-
+    else:
+         raise NameError('Incorrect mode selected')
 
 ############## total Higgs width #####################
 ######################################################  
 
     GammaSM_WW= data['Higgs']['BRWWSM']*data['Higgs']['width']
     GammaSM_ZZ= data['Higgs']['BRZZSM']*data['Higgs']['width']
+    ###
+    GammSM_bb =data['Higgs']['BRbbSM']*data['Higgs']['width']
     RGamvv = (RGamzz*GammaSM_ZZ+GammaSM_WW*RGamww)/(GammaSM_WW+GammaSM_ZZ)
+    
     GamHRat = (RGambb*\
     data['Higgs']['BRbbSM'] +RGamff*\
     data['Higgs']['BRccSM'] + RGamtata*\
@@ -116,9 +120,10 @@ def mylikelihood(operator,Cqu1,CH,data,experiments=['ATLAS'],HiggsChannels=['ggf
     data['Higgs']['BRMuMuSM'] + RGamww*\
     data['Higgs']['BRWWSM'] + RGamzz*\
     data['Higgs']['BRZZSM'] + RGamgaga*\
-    data['Higgs']['BRgagaSM'] + RGamgg*data['Higgs']['BRggSM'])/(data['Higgs']['BRbbSM'] +
-    data['Higgs']['BRccSM'] + data['Higgs']['BRTauTauSM'] + data['Higgs']['BRMuMuSM'] + data['Higgs']['BRWWSM'] + data['Higgs']['BRZZSM'] +
-    data['Higgs']['BRgagaSM'] + data['Higgs']['BRggSM'])
+    data['Higgs']['BRgagaSM'] + RGamgg*data['Higgs']['BRggSM'])
+    #/(data['Higgs']['BRbbSM'] +
+    #data['Higgs']['BRccSM'] + data['Higgs']['BRTauTauSM'] + data['Higgs']['BRMuMuSM'] + data['Higgs']['BRWWSM'] + data['Higgs']['BRZZSM'] +
+    #data['Higgs']['BRgagaSM'] + data['Higgs']['BRggSM'])
 
     GammaHSM= (data['Higgs']['BRbbSM'] +
     data['Higgs']['BRccSM'] + data['Higgs']['BRTauTauSM'] + data['Higgs']['BRMuMuSM'] + data['Higgs']['BRWWSM'] + data['Higgs']['BRZZSM'] +
@@ -127,52 +132,56 @@ def mylikelihood(operator,Cqu1,CH,data,experiments=['ATLAS'],HiggsChannels=['ggf
 ###########################################################################
 # linearisation of the signal strength
 ###########################################################################
-    if linearmu==True:
-            mugaga= [(1+sigma_gg_cqu1+sigma_ch_gg) +(RGamgaga)-GamHRat]
+    sigma_vh = ((sigma_ch_zh*xs_zh)+(sigma_ch_wh*xs_wh))/(xs_wh+xs_zh)
+    muth={
+    
+        'ggf':{
+            'gaga':(1+sigma_gg_cqu1+sigma_ch_gg)+(RGamgaga)-GamHRat,
+            'zz': (1+sigma_ch_gg+sigma_gg_cqu1)+(RGamzz)-GamHRat,
+            'ww':(1+sigma_ch_gg+sigma_gg_cqu1)+(RGamww)-GamHRat,
+            'tata':(1+sigma_ch_gg+sigma_gg_cqu1)+(RGamtata)-GamHRat,
+            'bb':(1+sigma_ch_gg+sigma_gg_cqu1)+(RGambb)-GamHRat,
+            'mm':(1+sigma_ch_gg+sigma_gg_cqu1)+(RGamtata)-GamHRat
+        },
+        'vbf':{
+            'gaga':(1+sigma_ch_vbf) +(RGamgaga)-GamHRat,
+            'zz':(1+sigma_ch_vbf)+(RGamzz)-GamHRat,
+            'ww':(1+sigma_ch_vbf)+(RGamww)-GamHRat,
+            'tata':(1+sigma_ch_vbf)+(RGamtata)-GamHRat,
+            'bb':(1+sigma_ch_vbf)+(RGambb)-GamHRat,
+            'mm':(1+sigma_ch_vbf)+(RGamtata)-GamHRat
+        },
+        'vh':{
+            'gaga':(1+sigma_vh)+(RGamgaga)-GamHRat,
+            'zz':(1+sigma_vh)+(RGamzz)-GamHRat,
+            'ww':(1+sigma_vh)+(RGamww)-GamHRat,
+            'tata':(1+sigma_vh)+(RGamtata)-GamHRat,
+            'bb':(1+sigma_vh)+(RGambb)-GamHRat
+        },
+        'zh':{
+            'gaga':(1+sigma_ch_zh)+(RGamgaga)-GamHRat,
+            'zz':(1+sigma_ch_zh)+(RGamzz)-GamHRat,
+            'ww':(1+sigma_ch_zh)+(RGamww)-GamHRat,
+            'tata':(1+sigma_ch_zh)+(RGamtata)-GamHRat,
+            'bb':(1+sigma_ch_zh)+(RGambb)-GamHRat
+        },
+        'wh':{
+            'gaga':(1+sigma_ch_wh)+(RGamgaga)-GamHRat,
+            'zz':(1+sigma_ch_wh)+(RGamzz)-GamHRat,
+            'ww':(1+sigma_ch_wh)+(RGamww)-GamHRat,
+            'tata':(1+sigma_ch_wh)+(RGamtata)-GamHRat,
+            'bb':(1+sigma_ch_wh)+(RGambb)-GamHRat
+        },
+        'ttxh':{
+            'gaga':(1+sigma_ch_tth+sigma_ttH_cqu1)+(RGamgaga)-GamHRat,
+            'zz':(1+sigma_ch_tth+sigma_ttH_cqu1)+(RGamzz)-GamHRat,
+            'ww':(1+sigma_ch_tth+sigma_ttH_cqu1)+(RGamww)-GamHRat,
+            'vv':(1+sigma_ch_tth+sigma_ttH_cqu1)+(RGamvv)-GamHRat,
+            'tata':(1+sigma_ch_tth+sigma_ttH_cqu1)+(RGamtata)-GamHRat,
+            'bb':(1+sigma_ch_tth+sigma_ttH_cqu1)+(RGambb)-GamHRat
+        }
+    }
 
-            muzz =  [(1+sigma_ch_gg+sigma_gg_cqu1)+(RGamzz)-GamHRat]
-
-            muww =[(1+sigma_ch_gg+sigma_gg_cqu1)+(RGamww)-GamHRat]
-
-            mutata =[(1+sigma_ch_gg+sigma_gg_cqu1)+(RGamtata)-GamHRat]
-
-            mumm =[(1+sigma_ch_gg+sigma_gg_cqu1)+(RGamtata)-GamHRat]
-
-            mubb = [(1+sigma_ch_gg+sigma_gg_cqu1)+(RGambb)-GamHRat]
-
-             # vbf
-            vbfmugaga= [(1+sigma_ch_vbf) +(RGamgaga)-GamHRat]
-            vbfmuzz =[(1+sigma_ch_vbf)+(RGamzz)-GamHRat]
-            vbfmuww =[(1+sigma_ch_vbf)+(RGamww)-GamHRat]
-            vbfmutata =[(1+sigma_ch_vbf)+(RGamtata)-GamHRat]
-            vbfmumm =[(1+sigma_ch_vbf)+(RGamtata)-GamHRat]
-            vbfmubb =[(1+sigma_ch_vbf)+(RGambb)-GamHRat]
-             # VH
-            sigma_vh = ((sigma_ch_zh*xs_zh)+(sigma_ch_wh*xs_wh))/(xs_wh+xs_zh)
-            vhmugaga=[(1+sigma_vh)+(RGamgaga)-GamHRat]
-            vhmuzz =[(1+sigma_vh)+(RGamzz)-GamHRat]
-            vhmuww =[(1+sigma_vh)+(RGamww)-GamHRat]
-            vhmutata =[(1+sigma_vh)+(RGamtata)-GamHRat]
-            vhmubb =[(1+sigma_vh)+(RGambb)-GamHRat]
-            # ZH
-            zhmugaga= [(1+sigma_ch_zh)+(RGamgaga)-GamHRat]
-            zhmuzz =[(1+sigma_ch_zh)+(RGamzz)-GamHRat]
-            zhmuww =[(1+sigma_ch_zh)+(RGamww)-GamHRat]
-            zhmutata =[(1+sigma_ch_zh)+(RGamtata)-GamHRat]
-            zhmubb = [(1+sigma_ch_zh)+(RGambb)-GamHRat]
-             # WH
-            whmugaga= [(1+sigma_ch_wh)+(RGamgaga)-GamHRat]
-            whmuzz =[(1+sigma_ch_wh)+(RGamzz)-GamHRat]
-            whmuww =[(1+sigma_ch_wh)+(RGamww)-GamHRat]
-            whmutata =[(1+sigma_ch_wh)+(RGamtata)-GamHRat]
-            whmubb =[(1+sigma_ch_wh)+(RGambb)-GamHRat]
-             #ttH
-            tthmugaga= [(1+sigma_ch_tth+sigma_ttH_cqu1)+(RGamgaga)-GamHRat]
-            tthmuzz =[(1+sigma_ch_tth+sigma_ttH_cqu1)+(RGamzz)-GamHRat]
-            tthmuww =[(1+sigma_ch_tth+sigma_ttH_cqu1)+(RGamww)-GamHRat ]         
-            tthmuvv =[(1+sigma_ch_tth+sigma_ttH_cqu1)+(RGamvv)-GamHRat]
-            tthmutata = [(1+sigma_ch_tth+sigma_ttH_cqu1)+(RGamtata)-GamHRat]
-            tthmubb =[(1+sigma_ch_tth+sigma_ttH_cqu1)+(RGambb)-GamHRat]
 
 
 ###########################################################################
@@ -181,334 +190,131 @@ def mylikelihood(operator,Cqu1,CH,data,experiments=['ATLAS'],HiggsChannels=['ggf
 #
 ###########################################################################    
 
-    muExp= np.zeros(32)
-    errExp= np.zeros(32)
-    num_of_obs=muExp.shape[0]
+    num_of_obs=16
     corr = np.identity(num_of_obs, dtype = float)
+    #symmetrise errors
+    def SymMu (dat,exp,ch,decay):
+        mu= dat['Bounds'][exp][ch]['mu_'+decay]
+        up=dat['Bounds'][exp][ch]['up_err_'+decay]
+        low=dat['Bounds'][exp][ch]['low_err_'+decay]
+        return mu+0.5*(up-low)
+    #########################
+    def SymErr (dat,exp,ch,decay):
+        up=dat['Bounds'][exp][ch]['up_err_'+decay]
+        low=dat['Bounds'][exp][ch]['low_err_'+decay]
+        return 0.5*(up+low)
 
     
 ###############################################################
 #           Run-II LHC
- ###############################################################   
+ ############################################################### 
+    muTheo= np.zeros(1)
+    muExp= np.zeros(1)
+    errExp= np.zeros(1)
+
+            
+            
+            ### the ordr here is important 
+    experiments ={
+        'Run-II':['ATLAS','CMS'],
+        'HL-LHC':['HL-LHC']
+        }        
+    channels ={
+        'ATLAS' :['ggf','vbf','ttxh','vh'],
+        'CMS':['ggf','vbf','ttxh','vh','wh','zh'],
+        'HL-LHC':['ggf','vbf','wh','zh','ttxh']
+            }
+    decays={
+        'ATLAS':{
+            'ggf': ['gaga','zz','ww','tata'],
+            'vbf':['gaga','zz','ww','tata','bb'],
+            'ttxh':['gaga','vv','tata','bb'],
+            'vh':['gaga','zz','bb']
+            },
+        'CMS':{
+            'ggf': ['gaga','zz','ww','tata','bb'
+                    ,'mm'
+                   ],
+            'vbf':['gaga','zz','ww','tata'
+                   ,'mm'
+                  ],
+            'ttxh':['gaga'
+                   ,'zz','ww','tata','bb'
+                   ],
+            'vh':['gaga','zz','ww'],
+            'wh':['tata','bb'],
+            'zh':['tata','bb']
+            },
+        'HL-LHC':{
+            'ggf':['gaga','zz','ww','tata','bb','mm'],
+            'vbf':['gaga','zz','ww','tata','mm'],
+            'wh':['gaga','zz','ww','bb'],
+            'zh':['gaga','zz','ww','bb'],
+            'ttxh':['gaga','zz','ww','bb','tata']
+        }
+        }
+    for exp in experiments[collider]:
+        for ch in channels[exp]:
+            for dec in decays[exp][ch]:
+                muExp= np.concatenate((muExp,[SymMu(data,exp,ch,dec)]))
+                errExp= np.concatenate((errExp,[SymErr(data,exp,ch,dec)]))
+                muTheo=np.concatenate((muTheo,[muth[ch][dec]]))
+                #print(exp,ch,dec,SymMu(data,exp,ch,dec),'\pm',SymErr(data,exp,ch,dec))
+
+                
     
-    ### Run-II ATLAS #####
-    if 'ATLAS' in experiments:
-        #gluon fusion
-        if 'ggf' in HiggsChannels:
-            # gamma gamma
-            muExp[0]= data['Bounds']['ATLAS']['ggf']['mu_gaga'] 
-            errExp[0]=data['Bounds']['ATLAS']['ggf']['err_gaga'] 
-            muTheo=np.array(mugaga)
-            # ZZ
-            muExp[1]= data['Bounds']['ATLAS']['ggf']['mu_zz'] 
-            errExp[1]= data['Bounds']['ATLAS']['ggf']['err_zz'] 
-            muTheo=np.concatenate((muTheo,muzz))
-            #WW
-            muExp[2]= data['Bounds']['ATLAS']['ggf']['mu_ww'] 
-            errExp[2]= data['Bounds']['ATLAS']['ggf']['err_ww'] 
-            muTheo=np.concatenate((muTheo,muww))
-            # tau tau
-            muExp[3]= data['Bounds']['ATLAS']['ggf']['mu_tata'] 
-            errExp[3]= data['Bounds']['ATLAS']['ggf']['err_tata'] 
-            muTheo=np.concatenate((muTheo,mutata))
-          ###################  
-         # VBF
-        if 'vbf' in HiggsChannels:
-            muExp[4]= data['Bounds']['ATLAS']['vbf']['mu_gaga'] 
-            errExp[4]=data['Bounds']['ATLAS']['vbf']['err_gaga'] 
-            muTheo=np.concatenate((muTheo,vbfmugaga))
-            # ZZ
-            muExp[5]= data['Bounds']['ATLAS']['vbf']['mu_zz'] 
-            errExp[5]= data['Bounds']['ATLAS']['vbf']['err_zz'] 
-            muTheo=np.concatenate((muTheo,vbfmuzz))
-            #WW
-            muExp[6]= data['Bounds']['ATLAS']['vbf']['mu_ww'] 
-            errExp[6]= data['Bounds']['ATLAS']['vbf']['err_ww'] 
-            muTheo=np.concatenate((muTheo,vbfmuww))
-            # tau tau
-            muExp[7]= data['Bounds']['ATLAS']['vbf']['mu_tata'] 
-            errExp[7]= data['Bounds']['ATLAS']['vbf']['err_tata'] 
-            muTheo=np.concatenate((muTheo,vbfmutata))
-            # b b 
-            muExp[8]= data['Bounds']['ATLAS']['vbf']['mu_bb'] 
-            errExp[8]= data['Bounds']['ATLAS']['vbf']['err_bb'] 
-            muTheo=np.concatenate((muTheo,vbfmubb))
-          ###################  
-         # t t h
-        if 'ttxh' in HiggsChannels:
-            muExp[9]= data['Bounds']['ATLAS']['ttxh']['mu_gaga'] 
-            errExp[9]=data['Bounds']['ATLAS']['ttxh']['err_gaga'] 
-            muTheo=np.concatenate((muTheo,tthmugaga))
-            # VV
-            muExp[10]= data['Bounds']['ATLAS']['ttxh']['mu_vv'] 
-            errExp[10]= data['Bounds']['ATLAS']['ttxh']['err_vv'] 
-            muTheo=np.concatenate((muTheo,tthmuvv))
-            # tau tau
-            muExp[11]= data['Bounds']['ATLAS']['ttxh']['mu_tata'] 
-            errExp[11]= data['Bounds']['ATLAS']['ttxh']['err_tata'] 
-            muTheo=np.concatenate((muTheo,tthmutata))
-            #bb
-            muExp[12]= data['Bounds']['ATLAS']['ttxh']['mu_bb'] 
-            errExp[12]= data['Bounds']['ATLAS']['ttxh']['err_bb'] 
-            muTheo=np.concatenate((muTheo,tthmubb))
-          ################### 
-          # vh
-        if 'vh' in HiggsChannels:
-            muExp[13]= data['Bounds']['ATLAS']['vh']['mu_gaga'] 
-            errExp[13]=data['Bounds']['ATLAS']['vh']['err_gaga']
-            muTheo=np.concatenate((muTheo,vhmugaga))
-            # ZZ
-            muExp[14]= data['Bounds']['ATLAS']['vh']['mu_zz'] 
-            errExp[14]= data['Bounds']['ATLAS']['vh']['err_zz'] 
-            muTheo=np.concatenate((muTheo,vhmuzz))
-            #bb
-            muExp[15]= data['Bounds']['ATLAS']['vh']['mu_bb'] 
-            errExp[15]= data['Bounds']['ATLAS']['vh']['err_bb'] 
-            muTheo=np.concatenate((muTheo,vhmubb))
-        ################### 
+    
+    
+    
+    
+
           #setting up correlations 
+    muExp= muExp[muExp!=0]
+    muTheo= muTheo[muTheo!=0]
+    errExp= errExp[errExp!=0]
+    num_of_obs=muExp.shape[0]
+    #print(muTheo)
+
+    corr = np.identity(num_of_obs, dtype = float)
+    if collider=='Run-II':
+            # ATLAS
         ### gamma gamma between ggf and vbf
         corr[0,4]= data['Bounds']['ATLAS']['corr_ggfvbf_gaga']      
         corr[4,0]=corr[0,4]    
         ### ZZ between ggf and vbf
         corr[1,5]= data['Bounds']['ATLAS']['corr_ggfvbf_zz']   
         corr[5,1]=corr[1,5]   
-        ### WW between ggf and vbf
-        corr[2,6]=data['Bounds']['ATLAS']['corr_ggfvbf_ww']
-        corr[6,2]=corr[2,6]  
         ### tata between ggf and vbf
         corr[3,7]= data['Bounds']['ATLAS']['corr_ggfvbf_tata']
         corr[7,3]=corr[3,7]   
         ### ZZ between ggf and vh
         corr[1,14]=data['Bounds']['ATLAS']['corr_ggf_vh_zz']               
-        corr[14,1]=corr[0,13]   
+        corr[14,1]=corr[1,14]   
         ### t t h between ta ta and VV
         corr[11,10]=data['Bounds']['ATLAS']['corr_tth_tatazz']               
         corr[10,11]=corr[11,10]     
+
+    
+    ####
+    err=errExp
     
     
     
- ### Run-II CMS #####
-    if 'CMS' in experiments:
-        #gluon fusion
-        if 'ggf' in HiggsChannels:
-            # gamma gamma
-            muExp[16]= data['Bounds']['CMS']['ggf']['mu_gaga'] 
-            errExp[16]=data['Bounds']['CMS']['ggf']['err_gaga'] 
-            muTheo=np.concatenate((muTheo,mugaga))
-            # ZZ
-            muExp[17]= data['Bounds']['CMS']['ggf']['mu_zz'] 
-            errExp[17]= data['Bounds']['CMS']['ggf']['err_zz'] 
-            muTheo=np.concatenate((muTheo,muzz))
-            #WW
-            muExp[18]= data['Bounds']['CMS']['ggf']['mu_ww'] 
-            errExp[18]= data['Bounds']['CMS']['ggf']['err_ww']
-            muTheo=np.concatenate((muTheo,muww))
-            # tau tau
-            muExp[19]= data['Bounds']['CMS']['ggf']['mu_tata'] 
-            errExp[19]= data['Bounds']['CMS']['ggf']['err_tata'] 
-            muTheo=np.concatenate((muTheo,mutata))
-          ###################  
-         # VBF
-        if 'vbf' in HiggsChannels:
-            muExp[20]= data['Bounds']['CMS']['vbf']['mu_gaga'] 
-            errExp[20]=data['Bounds']['CMS']['vbf']['err_gaga'] 
-            muTheo=np.concatenate((muTheo,vbfmugaga))
-
-            # ZZ
-            muExp[21]= data['Bounds']['CMS']['vbf']['mu_zz'] 
-            errExp[21]= data['Bounds']['CMS']['vbf']['err_zz']
-            muTheo=np.concatenate((muTheo,vbfmuzz))
-            #WW
-            muExp[22]= data['Bounds']['CMS']['vbf']['mu_ww'] 
-            errExp[22]= data['Bounds']['CMS']['vbf']['err_ww']
-            muTheo=np.concatenate((muTheo,vbfmuww))
-            # tau tau
-            muExp[23]= data['Bounds']['CMS']['vbf']['mu_tata'] 
-            errExp[23]= data['Bounds']['CMS']['vbf']['err_tata'] 
-            muTheo=np.concatenate((muTheo,vbfmutata))
-          ###################  
-         # t t h
-        if 'ttxh' in HiggsChannels:
-            muExp[24]= data['Bounds']['CMS']['ttxh']['mu_gaga'] 
-            errExp[24]=data['Bounds']['CMS']['ttxh']['err_gaga']
-            muTheo=np.concatenate((muTheo,tthmugaga))
-          ################### 
-          # vh
-        if 'vh' in HiggsChannels:
-            muExp[25]= data['Bounds']['CMS']['vh']['mu_gaga'] 
-            errExp[25]=data['Bounds']['CMS']['vh']['err_gaga']
-            muTheo=np.concatenate((muTheo,vhmugaga))
-     
-            # ZZ
-            muExp[26]= data['Bounds']['CMS']['vh']['mu_zz'] 
-            errExp[26]= data['Bounds']['CMS']['vh']['err_zz']
-            muTheo=np.concatenate((muTheo,vhmuzz))
-            #WW
-            muExp[27]= data['Bounds']['CMS']['vh']['mu_ww'] 
-            errExp[27]= data['Bounds']['CMS']['vh']['err_ww'] 
-            muTheo=np.concatenate((muTheo,vhmuww))
-         ################### 
-          # zh
-        if 'zh' in HiggsChannels:
-            #ta ta
-            muExp[28]= data['Bounds']['CMS']['zh']['mu_tata'] 
-            errExp[28]= data['Bounds']['CMS']['zh']['err_tata'] 
-            muTheo=np.concatenate((muTheo,zhmutata))
-            # b b
-            muExp[29]= data['Bounds']['CMS']['zh']['mu_bb'] 
-            errExp[29]= data['Bounds']['CMS']['zh']['err_bb']
-            muTheo=np.concatenate((muTheo,zhmubb))
-        ################### 
-          # wh
-        if 'wh' in HiggsChannels:
-            #ta ta
-            muExp[30]= data['Bounds']['CMS']['wh']['mu_tata'] 
-            errExp[30]= data['Bounds']['CMS']['wh']['err_tata'] 
-            muTheo=np.concatenate((muTheo,whmutata))
-            # b b
-            muExp[31]= data['Bounds']['CMS']['wh']['mu_bb'] 
-            errExp[31]= data['Bounds']['CMS']['wh']['err_bb']
-            muTheo=np.concatenate((muTheo,whmubb))
-
-###############################################################
-#            HL-LHC 
- ###############################################################   
- ### HL-LHC CMS #####
-    if 'HL-LHC' in experiments:
-        #gluon fusion
-            # gamma gamma
-        muExp[0]= data['Bounds']['HL-LHC']['ggf']['mu_gaga'] 
-        errExp[0]=data['Bounds']['HL-LHC']['ggf']['err_gaga'] 
-        muTheo=np.array(mugaga)
-            # ZZ
-        muExp[1]= data['Bounds']['HL-LHC']['ggf']['mu_zz'] 
-        errExp[1]= data['Bounds']['HL-LHC']['ggf']['err_zz']
-        muTheo=np.concatenate((muTheo,muzz))
-            #WW
-        muExp[2]= data['Bounds']['HL-LHC']['ggf']['mu_ww'] 
-        errExp[2]= data['Bounds']['HL-LHC']['ggf']['err_ww'] 
-        muTheo=np.concatenate((muTheo,muww))
-            # tau tau
-        muExp[3]= data['Bounds']['HL-LHC']['ggf']['mu_tata'] 
-        errExp[3]= data['Bounds']['HL-LHC']['ggf']['err_tata']
-        muTheo=np.concatenate((muTheo,mutata))
-            # b b
-        muExp[4]= data['Bounds']['HL-LHC']['ggf']['mu_bb'] 
-        errExp[4]= data['Bounds']['HL-LHC']['ggf']['err_bb'] 
-        muTheo=np.concatenate((muTheo,mubb))
-             # mm
-        muExp[5]= data['Bounds']['HL-LHC']['ggf']['mu_mm'] 
-        errExp[5]= data['Bounds']['HL-LHC']['ggf']['err_mm'] 
-        muTheo=np.concatenate((muTheo,mumm))
-          ###################  
-         # VBF
-        muExp[6]= data['Bounds']['HL-LHC']['vbf']['mu_gaga'] 
-        errExp[6]=data['Bounds']['HL-LHC']['vbf']['err_gaga'] 
-        muTheo=np.concatenate((muTheo,vbfmugaga))
-            # ZZ
-        muExp[7]= data['Bounds']['HL-LHC']['vbf']['mu_zz'] 
-        errExp[7]= data['Bounds']['HL-LHC']['vbf']['err_zz'] 
-        muTheo=np.concatenate((muTheo,vbfmuzz))
-            #WW
-        muExp[8]= data['Bounds']['HL-LHC']['vbf']['mu_ww'] 
-        errExp[8]= data['Bounds']['HL-LHC']['vbf']['err_ww'] 
-        muTheo=np.concatenate((muTheo,vbfmuww))
-            # tau tau
-        muExp[9]= data['Bounds']['HL-LHC']['vbf']['mu_tata'] 
-        errExp[9]= data['Bounds']['HL-LHC']['vbf']['err_tata'] 
-        muTheo=np.concatenate((muTheo,vbfmutata))
-            # mu mu 
-        muExp[10]= data['Bounds']['HL-LHC']['vbf']['mu_mm'] 
-        errExp[10]= data['Bounds']['HL-LHC']['vbf']['err_mm'] 
-        muTheo=np.concatenate((muTheo,vbfmumm))
-
-            
-                  ################### 
-          # wh
-        muExp[11]= data['Bounds']['HL-LHC']['wh']['mu_gaga'] 
-        errExp[11]=data['Bounds']['HL-LHC']['wh']['err_gaga'] 
-        muTheo=np.concatenate((muTheo,whmugaga))
-            # ZZ
-        muExp[12]= data['Bounds']['HL-LHC']['wh']['mu_zz'] 
-        errExp[12]= data['Bounds']['HL-LHC']['wh']['err_zz'] 
-        muTheo=np.concatenate((muTheo,whmuzz))
-            #WW
-        muExp[13]= data['Bounds']['HL-LHC']['wh']['mu_ww'] 
-        errExp[13]= data['Bounds']['HL-LHC']['wh']['err_ww']
-        muTheo=np.concatenate((muTheo,whmuww))
-             # b b
-        muExp[14]= data['Bounds']['HL-LHC']['wh']['mu_bb'] 
-        errExp[14]= data['Bounds']['HL-LHC']['wh']['err_bb'] 
-        muTheo=np.concatenate((muTheo,whmubb))
-                  ################### 
-          # zh
-        muExp[15]= data['Bounds']['HL-LHC']['zh']['mu_gaga'] 
-        errExp[15]=data['Bounds']['HL-LHC']['zh']['err_gaga'] 
-        muTheo=np.concatenate((muTheo,whmugaga))
-            # ZZ
-        muExp[16]= data['Bounds']['HL-LHC']['zh']['mu_zz'] 
-        errExp[16]= data['Bounds']['HL-LHC']['zh']['err_zz'] 
-        muTheo=np.concatenate((muTheo,zhmuzz))
-            #WW
-        muExp[17]= data['Bounds']['HL-LHC']['zh']['mu_ww'] 
-        errExp[17]= data['Bounds']['HL-LHC']['zh']['err_ww']
-        muTheo=np.concatenate((muTheo,zhmuww))
-             # b b
-        muExp[18]= data['Bounds']['HL-LHC']['zh']['mu_bb'] 
-        errExp[18]= data['Bounds']['HL-LHC']['zh']['err_bb']
-        muTheo=np.concatenate((muTheo,zhmubb))
-           ###################
-         # t t h
-        #gamma gamma
-        muExp[19]= data['Bounds']['HL-LHC']['ttxh']['mu_gaga'] 
-        errExp[19]=data['Bounds']['HL-LHC']['ttxh']['err_gaga']
-        muTheo=np.concatenate((muTheo,tthmugaga))
-       #ZZ
-        muExp[20]= data['Bounds']['HL-LHC']['ttxh']['mu_zz'] 
-        errExp[20]=data['Bounds']['HL-LHC']['ttxh']['err_zz'] 
-        muTheo=np.concatenate((muTheo,tthmuzz))
-               #WW
-        muExp[21]= data['Bounds']['HL-LHC']['ttxh']['mu_ww'] 
-        errExp[21]=data['Bounds']['HL-LHC']['ttxh']['err_ww'] 
-        muTheo=np.concatenate((muTheo,tthmuww))
-
-        #b b 
-        muExp[22]= data['Bounds']['HL-LHC']['ttxh']['mu_bb'] 
-        errExp[22]=data['Bounds']['HL-LHC']['ttxh']['err_bb'] 
-        muTheo=np.concatenate((muTheo,tthmubb))
-        # ta ta 
-        muExp[23]= data['Bounds']['HL-LHC']['ttxh']['mu_tata'] 
-        errExp[23]=data['Bounds']['HL-LHC']['ttxh']['err_tata'] 
-        muTheo=np.concatenate((muTheo,tthmutata))
-
 
 
     
-    
-
-
-
-    muExp= muExp[muExp!=0]
-    muTheo= muTheo[muTheo!=0]
-    errExp= errExp[errExp!=0]
-    
-
-
-    err=(errExp**2)**0.5
-
-    print(corr[4,0])
     # include correlations   
     A = tt.dmatrix('A')
     A.tag.test_value = np.random.rand(2, 2)
     invA = tt.nlinalg.matrix_inverse(A)
     
     f = theano.function([theano.Param(A)], invA)
-    if experiments==['HL-LHC']:
+    if collider=='HL-LHC':
         dirc= '/beegfs/desy/user/lalasfar/trilinear4tops'
         #print('yy')
         hilhccorr =np.loadtxt(dirc+"/results/correlation_matrix_CMS_HL-LHC.dat")
-        cov= err.T*hilhccorr*err
+        outer_err=np.outer(err, err)
+        cov= hilhccorr*outer_err
         invcov=f(cov)
         #print(invcov)
         iccov = 0.5*(invcov+invcov.T)
@@ -516,7 +322,8 @@ def mylikelihood(operator,Cqu1,CH,data,experiments=['ATLAS'],HiggsChannels=['ggf
         chi2d=-0.5*np.dot(np.dot(deltamu,iccov),deltamu)
         return chi2d
     else:
-        cov= err.T*corr*err
+        outer_err=np.outer(err, err)
+        cov= corr*outer_err
         invcov=f(cov)
         iccov = 0.5*(invcov+invcov.T)
         deltamu = (muTheo-muExp).T

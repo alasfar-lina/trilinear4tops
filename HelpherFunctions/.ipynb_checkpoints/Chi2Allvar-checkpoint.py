@@ -11,7 +11,7 @@ import pymc3 as pm
 
 
 
-def mylikelihoodAV(Cqu1,Cqt8,Cqtqb1,Cqtqb8,CH,data,collider='Run-II',mode='fin',l3mode='linear'):
+def mylikelihoodAV(Cqu1,Cqt8,Cqtqb1,Cqtqb8,Cqq3,CH,data,collider='Run-II',mode='fin',l3mode='linear',operator='Cqq3'):
     
     """ Chi2 function in vectorissed manner
             mu0: vector of the expected poi
@@ -37,9 +37,9 @@ def mylikelihoodAV(Cqu1,Cqt8,Cqtqb1,Cqtqb8,CH,data,collider='Run-II',mode='fin',
 ######################################################
 
     gamma_gaga_cqu1= data['Cqt1']['gagaos_'+mode]* Cqu1+data['Cqt8']['gagaos_'+mode]* Cqt8+data['Cqtqb1']['gagaos_'+mode]* Cqtqb1+data['Cqtqb8']['gagaos_'+mode]*Cqtqb8
-    #+data['Ctt1']['gagaos']*Ctt1+data['Cqq1']['gagaos']*Cqq1+data['Cqq8']['gagaos']*Cqq8
+    #+data['Cqq1']['gagaos']*Cqq1+data['Cqq8']['gagaos']*Cqq8
     #
-    gamma_gg_cqu1=data['Cqt1']['htogg_'+mode]* Cqu1+data['Cqt8']['htogg_'+mode]* Cqt8+data['Cqtqb1']['htogg_'+mode]* Cqtqb1+data['Cqtqb8']['htogg_'+mode]*Cqtqb8
+    gamma_gg_cqu1=data['Cqt1']['htogg_'+mode]* Cqu1+data['Cqt8']['htogg_'+mode]* Cqt8+data['Cqtqb1']['htogg_'+mode]* Cqtqb1+data['Cqtqb8']['htogg_'+mode]*Cqtqb8 
     #+data['Ctt1']['ggFos']*Ctt1+data['Cqq1']['ggFos']*Cqq1+data['Cqq8']['ggFos']*Cqq8
     #
     gamma_bb_cqu1=data['Cqt1']['Hbb_'+mode]* Cqu1+data['Cqt8']['Hbb_'+mode]* Cqt8+data['Cqtqb1']['Hbb_'+mode]* Cqtqb1+data['Cqtqb8']['Hbb_'+mode]*Cqtqb8
@@ -49,9 +49,9 @@ def mylikelihoodAV(Cqu1,Cqt8,Cqtqb1,Cqtqb8,CH,data,collider='Run-II',mode='fin',
     #
     #
     if collider== 'HL-LHC':
-        sigma_ttH_cqu1=data['Cqt1']['ttH14_'+mode]* Cqu1+data['Cqt8']['ttH14_'+mode]* Cqt8+data['Cqtqb1']['ttH14_'+mode]* Cqtqb1+data['Cqtqb8']['ttH14_'+mode]*Cqtqb8
+        sigma_ttH_cqu1=data['Cqt1']['ttH14_'+mode]* Cqu1+data['Cqt8']['ttH14_'+mode]* Cqt8+data['Cqtqb1']['ttH14_'+mode]* Cqtqb1+data['Cqtqb8']['ttH14_'+mode]*Cqtqb8+data[operator]['ttH14_'+mode]*Cqq3
     else:
-        sigma_ttH_cqu1=data['Cqt1']['ttH_'+mode]* Cqu1+data['Cqt8']['ttH_'+mode]* Cqt8+data['Cqtqb1']['ttH_'+mode]* Cqtqb1+data['Cqtqb8']['ttH_'+mode]*Cqtqb8
+        sigma_ttH_cqu1=data['Cqt1']['ttH_'+mode]* Cqu1+data['Cqt8']['ttH_'+mode]* Cqt8+data['Cqtqb1']['ttH_'+mode]* Cqtqb1+data['Cqtqb8']['ttH_'+mode]*Cqtqb8+data[operator]['ttH_'+mode]*Cqq3
     #+data['Ctt1']['ttH']*Ctt1+data['Cqq1']['ttH']*Cqq1+data['Cqq8']['ttH']*Cqq8
     
 ############# Cphi modifications #####################
@@ -276,6 +276,7 @@ def mylikelihoodAV(Cqu1,Cqt8,Cqtqb1,Cqtqb8,CH,data,collider='Run-II',mode='fin',
     muTheo= muTheo[muTheo!=0]
     errExp= errExp[errExp!=0]
     num_of_obs=muExp.shape[0]
+    #print(muTheo)
 
     corr = np.identity(num_of_obs, dtype = float)
     if collider=='Run-II':

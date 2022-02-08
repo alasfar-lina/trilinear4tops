@@ -12,7 +12,7 @@ import pickle
 dirc= '/beegfs/desy/user/lalasfar/trilinear4tops'
 import sys
 sys.path.append(dirc+'/HelpherFunctions/')
-from Chi2 import *
+from Chi2Allvar import *
 from mcmc import *
 ######
 filename =dirc+"/results/data.yaml"
@@ -21,18 +21,16 @@ stream = open(filename, 'r')#
 data = yaml.safe_load(stream)
 operator='Cqt8'
 ################################
-ll = lambda c4q,ch : mylikelihood(operator,c4q,ch,data,experiments=['HL-LHC'],
-                                                                      HiggsChannels=['ggf','vbf','wh','zh','ttxhhllhc']
-                                                                           ,TopChannels=None,mode='rge',l3mode='linear',linearmu=True) 
+ll = lambda c4q,ch :mylikelihoodAV(0,c4q,0,0,ch,data,collider='HL-LHC',mode='rge',l3mode='linear')
 limits = [-10.0, +10.0, -35, 35]
-config = [200000, 0.8, 50]
+config = [100000, 0.8, 50]
 trace_dir=dirc+'/results/fits/Cq8_HL-LHC_linearl3_rge.pickle'
 model= runMCMC((ll), limits, config=config,trace_dir=trace_dir)
 print('done')
 
-ll1 = lambda c4q,ch : mylikelihood(operator,c4q,ch,data,experiments=['HL-LHC'], HiggsChannels=['ggf','vbf','wh','zh','ttxhhllhc'],TopChannels=None,mode='rge',l3mode='quadratic',linearmu=True) 
+ll1 = lambda c4q,ch : mylikelihoodAV(0,c4q,0,0,ch,data,collider='HL-LHC',mode='rge',l3mode='quadratic')
 limits = [-10.0, +10.0, -35, 35]
-config = [200000, 0.8, 50]
+config = [100000, 0.8, 50]
 trace_dir=dirc+'/results/fits/Cq8_HL-LHC_quadl3_rge.pickle'
 model= runMCMC((ll1), limits, config=config,trace_dir=trace_dir)
 print('done')
