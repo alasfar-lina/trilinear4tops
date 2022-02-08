@@ -2,12 +2,8 @@
 
 A repository for the code, data, and results for the fits of 4 heavy quark operators with the Higgs trilinear self-interaction in Standard Model Effective field theory (SMEFT). 
 
-<<<<<<< HEAD
 ![Plot](./results/plots/face.png)
 =======
-![Plot](./results/plots/79b31a39-fb4e-46bc-8b45-9f52ebf728d7Kopie.png)
->>>>>>> 0b8d133b05bf66c2344aff72ef6b989bc93aa9ff
-
 Lina Alasfar, Jorge de Blas, and Ramona Gröber  
 
 
